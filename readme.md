@@ -28,16 +28,16 @@ Setiap citra diubah ukurannya (*resize*) menjadi dimensi $128 \times 128$ piksel
 ## Tahapan Preprocessing
 Proyek ini melakukan skenario pengujian melalui 4 eksperimen preprocessing yang berbeda untuk melihat pengaruhnya terhadap akurasi model:
 
-### Eksperimen 0: Grayscale Polos (Tanpa Preprocessing Tambahan)
+### Eksperimen 0: Grayscale + Resize
 Citra diubah dari format BGR menjadi citra keabuan (*grayscale*) standar untuk menyederhanakan saluran warna menjadi intensitas kecerahan tunggal, lalu langsung diekstrak fiturnya menggunakan GLCM.
 
-### Eksperimen 1: Grayscale + Histogram Equalization (HE) + Gaussian Blur
+### Eksperimen 1: Grayscale + Resize + Histogram Equalization (HE) + Gaussian Blur
 Citra *grayscale* ditingkatkan kontrasnya secara global menggunakan HE, kemudian dihaluskan menggunakan Gaussian Blur untuk membuang detail-detail mikro dan *noise* frekuensi tinggi.
 
-### Eksperimen 2: Grayscale + CLAHE + Median Blur
+### Eksperimen 2: Grayscale + Resize + CLAHE + Median Blur
 Citra kontrasnya ditingkatkan secara lokal menggunakan CLAHE (Contrast Limited Adaptive Histogram Equalization) agar tidak terjadi *over-saturation*, kemudian direduksi bintik *noise*-nya menggunakan Median Blur dengan tetap menjaga ketajaman garis tepi serat daging (*edge-preserving*).
 
-### Eksperimen 3: Otsu Thresholding + Opening + Bitwise AND (Segmentasi Latar Belakang)
+### Eksperimen 3: Grayscale + Resize + Otsu Thresholding + Opening + Bitwise AND (Segmentasi Latar Belakang)
 Citra dipisahkan antara objek daging dengan latar belakang menggunakan *Otsu Thresholding*. Masker biner tersebut kemudian dibersihkan dari noda kecil menggunakan operasi morfologi *Opening* (Erosi diikuti Dilasi). Terakhir, operasi *Bitwise AND* diterapkan pada citra asli sehingga latar belakang nampan/talenan berubah menjadi hitam pekat ($0$) sempurna, sementara tekstur asli di dalam daging tetap murni $100\%$.
 
 ## Analisis Hasil Eksperimen
